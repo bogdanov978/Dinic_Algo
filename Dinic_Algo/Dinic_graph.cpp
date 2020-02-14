@@ -13,7 +13,7 @@ bool Dinic_Graph::Breadth_First_Search()
 		for (std::list<edge>::iterator it = graph[queue.front()].edges.begin(); it != graph[queue.front()].edges.end(); it++)
 		{
 			if ((graph[it->r].dist == 0) && (it->cur < it->max))
-			//если рассматриваемое ребро текущей вершины ведет в вершину, которую мы не посещали (dist == -1), и пропускная способность текущего ребра не исчерпана
+			//если рассматриваемое ребро текущей вершины ведет в вершину, которую мы не посещали (dist == 0), и пропускная способность текущего ребра не исчерпана
 			{
 				graph[it->r].dist = graph[queue.front()].dist + 1;// присваивание вершине, в которую ведет ребро, дистанции, на 1 больше дистанции текущей вершины
 				queue.push_back(it->r); // добавление индекса этой вершины в конец очереди
@@ -21,7 +21,7 @@ bool Dinic_Graph::Breadth_First_Search()
 		}
 		queue.pop_front(); // удаление текущей вершины из начала очереди
 	}
-	return graph[sink].dist != 0; // если не дошли до вершины стока (ее дистанция == -1) возврат false
+	return graph[sink].dist != 0; // если не дошли до вершины стока (ее дистанция == 0) возврат false
 }
 n_type Dinic_Graph::Depth_First_Search(uint cur_vert, n_type flow) // на каждом шаге рекурсии мы знаем текущую вершину и поток, который она получает из предыдущих вершин
 {
@@ -36,8 +36,7 @@ n_type Dinic_Graph::Depth_First_Search(uint cur_vert, n_type flow) // на каждом 
 	n_type pushed; // величина потока, поторую мы получаем из рекурсивного вызова
 	for (std::list<edge>::iterator it = graph[cur_vert].edges.begin(); it != graph[cur_vert].edges.end(); it++)
 	{
-		if (graph[it->r].dist != graph[cur_vert].dist + 1)
-			// если ребро ведет в вершину, дистанция которой не равна дистанции текущей вершины + 1
+		if (graph[it->r].dist != graph[cur_vert].dist + 1)// если ребро ведет в вершину, дистанция которой не равна дистанции текущей вершины + 1
 		{
 			continue; // то это ребро мы рассматривать не будем
 		}
